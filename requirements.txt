@@ -1,0 +1,8 @@
+fastapi[all]
+motor
+requests
+pytest
+passlib
+bcrypt
+pyjwt
+python-jose
