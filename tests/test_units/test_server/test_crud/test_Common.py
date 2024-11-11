@@ -44,6 +44,6 @@ async def test_round_trip_with_ObjectID():
     docs = await crud.find_all()
     assert added_doc in docs
 
-    # deleted_count = await crud.delete_by_id(added_id)
-    # assert deleted_count == 1
+    deleted_count = await crud.delete_by_id(added_id)
+    assert deleted_count == 1
     
