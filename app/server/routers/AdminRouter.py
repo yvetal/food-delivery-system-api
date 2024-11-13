@@ -14,4 +14,4 @@ router = APIRouter()
     })
 async def add_admin(admin: AdminCreationRequestSchema):
     await admin_service.add_admin(admin)
-    return 
+    return 'Added'

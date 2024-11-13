@@ -14,4 +14,4 @@ router = APIRouter()
     })
 async def add_customer(customer: CustomerCreationRequestSchema):
     await customer_service.add_customer(customer)
-    return 
+    return 'Added'

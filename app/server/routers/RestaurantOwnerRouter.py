@@ -14,4 +14,4 @@ router = APIRouter()
     })
 async def add_restaurant_owner(restaurant_owner: RestaurantOwnerCreationRequestSchema):
     await restaurant_owner_service.add_restaurant_owner(restaurant_owner)
-    return 
+    return 'Added'

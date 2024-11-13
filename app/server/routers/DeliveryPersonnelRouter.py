@@ -14,4 +14,4 @@ router = APIRouter()
     })
 async def add_delivery_personnel(delivery_personnel: DeliveryPersonnelCreationRequestSchema):
     await delivery_personnel_service.add_delivery_personnel(delivery_personnel)
-    return 
+    return 'Added'
