@@ -1,5 +1,6 @@
 from ..database import database
 from bson import ObjectId
+from enum import Enum
 
 class CommonCRUD:
     def __init__(self, collection_name):
@@ -11,13 +12,15 @@ class CommonCRUD:
                 doc[field] = str(doc[field])
             elif field.endswith('_ids'):
                 doc[field] = [str(id) for id in doc[field]]
+            elif isinstance(doc[field], Enum):
+                doc[field] = doc[field].value
         return doc
     
     async def add(self, doc: dict):
-        await self._collection.insert_one(doc)
         doc = self._serialize(doc)
-
-        return doc 
+        result = await self._collection.insert_one(doc)
+        
+        return str(result.inserted_id) 
 
     async def find_by_id(self, id):
         doc = await self._collection.find_one({'_id': ObjectId(id)})
