@@ -7,13 +7,14 @@ class CommonCRUD:
         self._collection = database.get_collection(collection_name)
 
     def _serialize(self, doc):
-        for field in doc:
-            if field.endswith('_id'):
-                doc[field] = str(doc[field])
-            elif field.endswith('_ids'):
-                doc[field] = [str(id) for id in doc[field]]
-            elif isinstance(doc[field], Enum):
-                doc[field] = doc[field].value
+        if doc:
+            for field in doc:
+                if field.endswith('_id'):
+                    doc[field] = str(doc[field])
+                elif field.endswith('_ids'):
+                    doc[field] = [str(id) for id in doc[field]]
+                elif isinstance(doc[field], Enum):
+                    doc[field] = doc[field].value
         return doc
     
     async def add(self, doc: dict):
@@ -22,8 +23,13 @@ class CommonCRUD:
         
         return str(result.inserted_id) 
 
+    async def find_one(self, query):
+        doc = await self._collection.find_one(query)
+        doc = self._serialize(doc)
+        return doc
+    
     async def find_by_id(self, id):
-        doc = await self._collection.find_one({'_id': ObjectId(id)})
+        doc = await self.find_one({'_id': ObjectId(id)})
         doc = self._serialize(doc)
         return doc
     

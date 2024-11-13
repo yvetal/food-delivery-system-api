@@ -2,21 +2,23 @@ import requests
 api_url = 'http://localhost:8000'
 
 valid_admin = {
-  "username": "string",
+  "username": "admin",
   "password": "string",
   "admin_details": {}
 }
 invalid_admin = {
-  "username2": "string",
+  "username2": "admin",
   "password": "string",
   "admin_details": {}
 }
 
-def test_valid_admin_creation():
+def test_valid_admin_creation_with_duplication():
     admins_url = f'{api_url}/admins'
     response = requests.post(admins_url, json=valid_admin)
-    print(response.json())
     assert response.status_code == 200
+
+    response = requests.post(admins_url, json=valid_admin)
+    assert response.status_code == 409
 
 
 def test_invalid_admin_creation():
