@@ -2,10 +2,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from server.models import UserDetails, UserInDB, UserRole
+from server.models import UserInDB
 from server.crud.Common import CommonCRUD
-
-from server.hash import hash_password
 
 class UserService:
     def __init__(self):
