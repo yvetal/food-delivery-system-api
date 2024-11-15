@@ -17,6 +17,13 @@ class RestaurantService:
         restaurant = RestaurantSchema(name=restaurant_creation_request.name, restaurant_owner_id=restaurant_creation_request.restaurant_owner_id)
         inserted_id = await self._restaurant_crud.add(restaurant.model_dump())        
         return inserted_id
+    
+    async def get_all(self):
+        logger.info('Getting restaurants')
+        restaurants = await self._restaurant_crud.find_all()
         
+        return restaurants
+
+
 restaurant_service = RestaurantService()
 
