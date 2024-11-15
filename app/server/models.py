@@ -5,6 +5,7 @@ class MenuItem(BaseModel):
     name: str = Field(...)
     price: int = Field(...)
     availability: bool = Field(...)
+    restaurant_id: str = Field(...)
 
 class OrderItem(BaseModel):
     menu_item_id: str = Field(...)
@@ -28,16 +29,17 @@ class OrderCondensed(BaseModel):
     customer_id: str = Field(...)
     delivery_personnel_id: str = Field(default='')
 
-class RestaurantCondensed(BaseModel):
+class RestaurantSchema(BaseModel):
     name: str = Field(...)
-    opening_hours: str = Field(...)
-    delivery_zone: str = Field(...)
-    cuisine: str = Field(...)
-    vegetarian: bool = Field(...)
-    menu_item_ids: list[str] = Field(...)
-    order_ids: list[str] = Field(...)
+    opening_hours: str = Field(default='')
+    delivery_zone: str = Field(default='')
+    cuisine: str = Field(default='')
+    vegetarian: bool = Field(default='')
     restaurant_owner_id: str = Field(...)
 
+class RestaurantCreationRequestSchema(BaseModel):
+    name: str = Field(...)
+    restaurant_owner_id: str = Field(...)
 
 class UserDetails(BaseModel):
     pass
