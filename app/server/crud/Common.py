@@ -46,3 +46,7 @@ class CommonCRUD:
             return deleted.deleted_count
         except Exception as e:
             return 0
+    
+    async def update_by_id(self, id, update_query):
+        result = await self._collection.update_one({'_id': ObjectId(id)}, {'$set': update_query})
+        return result.matched_count
