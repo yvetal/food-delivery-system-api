@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from server.models import RestaurantCreationRequestSchema, RestaurantSchema, RestaurantUpdateRequestSchema
+from server.models import RestaurantCreationRequestSchema, RestaurantSchema, RestaurantUpdateRequestSchema, MenuItem, MenuItemCreationRequest
 from server.crud.Common import CommonCRUD
 
 from server.hash import hash_password
@@ -10,6 +10,7 @@ from server.hash import hash_password
 class RestaurantService:
     def __init__(self):
         self._restaurant_crud: CommonCRUD = CommonCRUD(collection_name='restaurants')
+        self._menu_item_crud: CommonCRUD = CommonCRUD(collection_name='menu_items')
 
     async def add_restaurant(self, restaurant_creation_request: RestaurantCreationRequestSchema):
         logger.info('Adding restaurant')
@@ -38,5 +39,20 @@ class RestaurantService:
         logger.info(f'Update query {update_query}')
         count = await self._restaurant_crud.update_by_id(id, update_query)
         logger.info(count)
+    
+    async def add_menu_item(self, id, menu_item_creation_request: MenuItemCreationRequest):
+        menu_item = MenuItem(name=menu_item_creation_request.name,
+                             availability=menu_item_creation_request.availability,
+                             price=menu_item_creation_request.price,
+                             restaurant_id=id,
+        )
+        logger.info(f'Adding Menu Item {menu_item}')
+        inserted_id = await self._menu_item_crud.add(menu_item.__dict__)
+        return inserted_id
+    
+    async def get_menu_items(self, id):
+        menu_items = await self._menu_item_crud.find(query={'restaurant_id': id})
+        return menu_items
+
 restaurant_service = RestaurantService()
 

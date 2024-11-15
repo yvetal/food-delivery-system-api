@@ -1,6 +1,11 @@
 from pydantic import BaseModel, Field
 from enum import Enum
 
+class MenuItemCreationRequest(BaseModel):
+    name: str = Field(...)
+    price: int = Field(...)
+    availability: bool = Field(...)
+
 class MenuItem(BaseModel):
     name: str = Field(...)
     price: int = Field(...)

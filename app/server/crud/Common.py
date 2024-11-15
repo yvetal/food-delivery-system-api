@@ -33,6 +33,13 @@ class CommonCRUD:
         doc = self._serialize(doc)
         return doc
     
+    async def find(self, query):
+        docs = []
+        async for doc in self._collection.find(query):
+            doc = self._serialize(doc)
+            docs.append(doc)
+        return docs
+    
     async def find_all(self):
         docs = []
         async for doc in self._collection.find({}):
