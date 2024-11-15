@@ -12,6 +12,7 @@ from server.routers.AdminRouter import router as AdminRouter
 from server.routers.LoginRouter import router as LoginRouter
 
 from server.routers.RestaurantRouter import router as RestaurantRouter
+from server.routers.OrderRouter import router as OrderRouter
 
 app = FastAPI()
 app.include_router(CustomerRouter, tags=["Customer"], prefix="/customers")
@@ -20,6 +21,7 @@ app.include_router(DeliveryPersonnelRouter, tags=["DeliveryPersonnel"], prefix="
 app.include_router(AdminRouter, tags=["Admin"], prefix="/admins")
 app.include_router(LoginRouter, tags=["Login"], prefix="/login")
 app.include_router(RestaurantRouter, tags=["Restaurants"], prefix="/restaurants")
+app.include_router(OrderRouter, tags=["Orders"], prefix="/orders")
 
 
 app.add_middleware(

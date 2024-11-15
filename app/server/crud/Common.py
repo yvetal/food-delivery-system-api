@@ -55,5 +55,7 @@ class CommonCRUD:
             return 0
     
     async def update_by_id(self, id, update_query):
+        
+        update_query = self._serialize(update_query)
         result = await self._collection.update_one({'_id': ObjectId(id)}, {'$set': update_query})
         return result.matched_count

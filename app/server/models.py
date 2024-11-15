@@ -12,7 +12,7 @@ class MenuItem(BaseModel):
     availability: bool = Field(...)
     restaurant_id: str = Field(...)
 
-class OrderItem(BaseModel):
+class OrderItemSchema(BaseModel):
     menu_item_id: str = Field(...)
     count: int = Field(...)
 
@@ -26,13 +26,15 @@ class DeliveryStatus(Enum):
     OUT_FOR_DELIVERY = 'OUT_FOR_DELIVERY'
     DELIVERED = 'DELIVERED'
 
-class OrderCondensed(BaseModel):
+class OrderCreationRequestSchema(BaseModel):
+    order_items: list[OrderItemSchema] = Field(...)
+
+class OrderSchema(BaseModel):
     preparation_status: PreparationStatus = Field(default=PreparationStatus.PREPARING)
     delivery_status: DeliveryStatus = Field(default = DeliveryStatus.ASSIGNING)
     order_item_ids: list[str] = Field(...)
-    restaurant_id: str = Field(...)
-    customer_id: str = Field(...)
-    delivery_personnel_id: str = Field(default='')
+    customer_username: str = Field(...)
+    delivery_personnel_username: str = Field(default='')
 
 class RestaurantSchema(BaseModel):
     name: str = Field(...)
@@ -71,7 +73,7 @@ class AdminDetails(UserDetails):
 
 class UserRole(Enum):
     CUSTOMER = 'CUSTOMER'
-    DELIVERY_PERSONNEL = 'DELIVERYPERSONNEL'
+    DELIVERY_PERSONNEL = 'DELIVERY_PERSONNEL'
     RESTAURANT_OWNER = 'RESTAURANT_OWNER'
     ADMIN = 'ADMIN'
 
