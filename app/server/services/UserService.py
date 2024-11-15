@@ -19,6 +19,12 @@ class UserService:
         else:
             return False 
     
+    async def get_user(self, username: str):        
+        logger.info(f'Getting user {username}')
+        query = {'username': username}
+        result = await self._user_crud.find_one(query)
+        return result
+        
     async def add_user(self, user: UserInDB):        
         logger.info('Creating User Object from User')
         inserted_id = await self._add_user_to_db(user)
