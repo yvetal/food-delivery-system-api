@@ -30,7 +30,7 @@ class DeliveryPersonnelService:
     def _get_user_object(self, delivery_personnel: DeliveryPersonnelCreationRequestSchema, delivery_personnel_details_id) -> DeliveryPersonnelDetails:
         user: UserInDB = UserInDB(username = delivery_personnel.username,
                     hashed_password=hash_password(delivery_personnel.password),
-                    role=UserRole.CUSTOMER,
+                    role=UserRole.DELIVERY_PERSONNEL,
                     user_details_id=delivery_personnel_details_id)
         return user
 

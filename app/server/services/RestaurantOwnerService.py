@@ -30,7 +30,7 @@ class RestaurantOwnerService:
     def _get_user_object(self, restaurant_owner: RestaurantOwnerCreationRequestSchema, restaurant_owner_details_id) -> RestaurantOwnerDetails:
         user: UserInDB = UserInDB(username = restaurant_owner.username,
                     hashed_password=hash_password(restaurant_owner.password),
-                    role=UserRole.CUSTOMER,
+                    role=UserRole.RESTAURANT_OWNER,
                     user_details_id=restaurant_owner_details_id)
         return user
 

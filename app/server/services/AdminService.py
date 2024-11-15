@@ -30,7 +30,7 @@ class AdminService:
     def _get_user_object(self, admin: AdminCreationRequestSchema, admin_details_id) -> AdminDetails:
         user: UserInDB = UserInDB(username = admin.username,
                     hashed_password=hash_password(admin.password),
-                    role=UserRole.CUSTOMER,
+                    role=UserRole.ADMIN,
                     user_details_id=admin_details_id)
         return user
 
