@@ -28,6 +28,7 @@ class DeliveryStatus(Enum):
 
 class OrderCreationRequestSchema(BaseModel):
     order_items: list[OrderItemSchema] = Field(...)
+    restaurant_id: str = Field(...)
 
 class OrderSchema(BaseModel):
     preparation_status: PreparationStatus = Field(default=PreparationStatus.PREPARING)
@@ -35,6 +36,7 @@ class OrderSchema(BaseModel):
     order_item_ids: list[str] = Field(...)
     customer_username: str = Field(...)
     delivery_personnel_username: str = Field(default='')
+    restaurant_id: str = Field(...)
 
 class RestaurantSchema(BaseModel):
     name: str = Field(...)

@@ -53,6 +53,10 @@ class RestaurantService:
     async def get_menu_items(self, id):
         menu_items = await self._menu_item_crud.find(query={'restaurant_id': id})
         return menu_items
-
+    
+    async def get_restaurants_by_owner(self, username):
+        restaurants = await self._restaurant_crud.find(query={'restaurant_owner_username': username})
+        return restaurants
+    
 restaurant_service = RestaurantService()
 
