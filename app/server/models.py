@@ -12,6 +12,12 @@ class MenuItem(BaseModel):
     availability: bool = Field(...)
     restaurant_id: str = Field(...)
 
+class MenuItemQuerySchema(BaseModel):
+    name: str | None = Field(default=None)
+    price: str | None = Field(default=None)
+    availability: bool | None = Field(default=True)
+    restaurant_id: str | None = Field(default=None)
+
 class OrderItemSchema(BaseModel):
     menu_item_id: str = Field(...)
     count: int = Field(...)

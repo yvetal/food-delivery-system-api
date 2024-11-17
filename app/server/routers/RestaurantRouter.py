@@ -17,7 +17,7 @@ router = APIRouter()
     responses={
         200: {"description": "Successful Response", "model": str},
     })
-async def add_restaurant(restaurant: RestaurantCreationRequestSchema):
+async def add_restaurant(restaurant: RestaurantCreationRequestSchema, current_user: dict = Depends(role_required("ADMIN"))):
     id = await restaurant_service.add_restaurant(restaurant)
     return f'Added {id}'
 
@@ -38,7 +38,7 @@ async def update_restaurants(id: str, restaurant_update_details: RestaurantUpdat
             detail="Restaurant Owner does not match Restaurant"
         ) 
 
-@router.put("/{id}/menu-items")
+@router.post("/{id}/menu-items")
 async def add_menu_item(id: str, menu_item: MenuItemCreationRequest, current_user: dict = Depends(role_required("RESTAURANT_OWNER"))):
     restaurant: RestaurantSchema = await restaurant_service.get_by_id(id)
     if restaurant['restaurant_owner_username'] == current_user['username']:
