@@ -43,7 +43,7 @@ class RestaurantSchema(BaseModel):
     opening_hours: str = Field(default='')
     delivery_zone: str = Field(default='')
     cuisine: str = Field(default='')
-    vegetarian: bool = Field(default='')
+    vegetarian: bool = Field(default=False)
     restaurant_owner_username: str = Field(...)
 
 class RestaurantCreationRequestSchema(BaseModel):
@@ -55,7 +55,13 @@ class RestaurantUpdateRequestSchema(BaseModel):
     opening_hours: str | None = Field(default=None)
     delivery_zone: str | None = Field(default=None)
     cuisine: str | None = Field(default=None)
-    vegetarian: str | None = Field(default=None)
+    vegetarian: bool | None = Field(default=False)
+
+class RestaurantQuerySchema(BaseModel):
+    name: str | None = Field(default=None)
+    delivery_zone: str | None = Field(default=None)
+    cuisine: str | None = Field(default=None)
+    vegetarian: bool | None = Field(default=False)
 
 class UserDetails(BaseModel):
     pass

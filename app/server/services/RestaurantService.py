@@ -18,10 +18,13 @@ class RestaurantService:
         inserted_id = await self._restaurant_crud.add(restaurant.model_dump())        
         return inserted_id
     
-    async def get_all(self):
+    async def query(self, query):
         logger.info('Getting restaurants')
-        restaurants = await self._restaurant_crud.find_all()
-        
+        get_query = {}
+        for key, value in query.__dict__.items():
+            if value != None:
+                get_query[key] = value
+        restaurants = await self._restaurant_crud.find(get_query)
         return restaurants
 
     async def get_by_id(self, id) -> RestaurantSchema:

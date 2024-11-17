@@ -8,7 +8,7 @@ from server.services.RestaurantService import restaurant_service
 from server.services.OrderService import order_service
 from server.services.UserService import user_service
 from server.hash import role_required
-from server.models import RestaurantCreationRequestSchema, RestaurantSchema, RestaurantUpdateRequestSchema, MenuItemCreationRequest
+from server.models import RestaurantCreationRequestSchema, RestaurantSchema, RestaurantUpdateRequestSchema, MenuItemCreationRequest, RestaurantQuerySchema
 
 router = APIRouter()
 
@@ -18,17 +18,17 @@ router = APIRouter()
         200: {"description": "Successful Response", "model": str},
     })
 async def add_restaurant(restaurant: RestaurantCreationRequestSchema):
-    await restaurant_service.add_restaurant(restaurant)
-    return 'Added'
+    id = await restaurant_service.add_restaurant(restaurant)
+    return f'Added {id}'
 
-@router.get("/")
-async def get_restaurants(current_user: dict = Depends(role_required("CUSTOMER"))):
-    restaurants = await restaurant_service.get_all()
+@router.post("/query")
+async def fetch_restaurants(query: RestaurantQuerySchema, current_user: dict = Depends(role_required("CUSTOMER"))):
+    restaurants = await restaurant_service.query(query)
     return restaurants
 
 
 @router.put("/{id}/")
-async def get_restaurants(id: str, restaurant_update_details: RestaurantUpdateRequestSchema, current_user: dict = Depends(role_required("RESTAURANT_OWNER"))):
+async def update_restaurants(id: str, restaurant_update_details: RestaurantUpdateRequestSchema, current_user: dict = Depends(role_required("RESTAURANT_OWNER"))):
     restaurant: RestaurantSchema = await restaurant_service.get_by_id(id)
     if restaurant['restaurant_owner_username'] == current_user['username']:
         await restaurant_service.update_restaurant(id, restaurant_update_details)
