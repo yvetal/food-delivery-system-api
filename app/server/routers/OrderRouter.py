@@ -45,7 +45,10 @@ async def accept_orders(id, current_user: dict = Depends(role_required("RESTAURA
     restaurant_id_from_order = order['restaurant_id']
     if restaurant_id_from_order in owned_restaurant_ids:
         orders = await order_service.mark_prepared(id)
-        return orders
+        return {
+            "message": "Preparation status updated"
+        }
+
     else:
         raise HTTPException(
             status_code=409,
@@ -54,10 +57,16 @@ async def accept_orders(id, current_user: dict = Depends(role_required("RESTAURA
     
 @router.post("/{id}/mark-out-for-delivery")
 async def accept_orders(id, current_user: dict = Depends(role_required("DELIVERY_PERSONNEL"))):
-    orders = await order_service.mark_out_for_delivery(id)
-    return orders
+    await order_service.mark_out_for_delivery(id)
+    return {
+        "message": "Delivery status updated"
+    }
+
 
 @router.post("/{id}/mark-delivered")
 async def accept_orders(id, current_user: dict = Depends(role_required("DELIVERY_PERSONNEL"))):
-    orders = await order_service.mark_delivered(id)
-    return orders
+    await order_service.mark_delivered(id)
+    return {
+    "message": "Delivery status updated"
+    }
+
