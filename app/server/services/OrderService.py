@@ -18,7 +18,7 @@ class OrderService:
         for order_item in order_creation_request.order_items:
             inserted_id = await self._order_item_crud.add(order_item.model_dump())
             order_item_ids.append(inserted_id)
-        order = OrderSchema(customer_username=customer_username, order_item_ids=order_item_ids)
+        order = OrderSchema(customer_username=customer_username, order_item_ids=order_item_ids, restaurant_id=order_creation_request.restaurant_id)
         inserted_id = await self._order_crud.add(order.model_dump())        
         return inserted_id
     

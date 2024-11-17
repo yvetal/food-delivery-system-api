@@ -19,7 +19,7 @@ router = APIRouter()
     })
 async def add_restaurant(restaurant: RestaurantCreationRequestSchema, current_user: dict = Depends(role_required("ADMIN"))):
     id = await restaurant_service.add_restaurant(restaurant)
-    return f'Added {id}'
+    return f'{id}'
 
 @router.post("/query")
 async def fetch_restaurants(query: RestaurantQuerySchema, current_user: dict = Depends(role_required("CUSTOMER"))):
@@ -42,7 +42,7 @@ async def update_restaurants(id: str, restaurant_update_details: RestaurantUpdat
 async def add_menu_item(id: str, menu_item: MenuItemCreationRequest, current_user: dict = Depends(role_required("RESTAURANT_OWNER"))):
     restaurant: RestaurantSchema = await restaurant_service.get_by_id(id)
     if restaurant['restaurant_owner_username'] == current_user['username']:
-        await restaurant_service.add_menu_item(id, menu_item)
+        return await restaurant_service.add_menu_item(id, menu_item)
     else:
         raise HTTPException(
             status_code=409,

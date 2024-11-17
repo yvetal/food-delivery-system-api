@@ -22,7 +22,9 @@ async def add_delivery_personnel(delivery_personnel: DeliveryPersonnelCreationRe
             detail="Username already exists"
         ) 
     await delivery_personnel_service.add_delivery_personnel(delivery_personnel)
-    return 'Added'
+    return {
+        "message": "User registered successfully"
+    }
 
 @router.get("/orders")
 async def get_orders_for_delivery_personnel(current_user: dict = Depends(role_required("DELIVERY_PERSONNEL"))):

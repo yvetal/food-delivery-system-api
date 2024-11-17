@@ -17,13 +17,18 @@ router = APIRouter()
         200: {"description": "Successful Response", "model": str},
     })
 async def add_order(order: OrderCreationRequestSchema, current_user: dict = Depends(role_required("CUSTOMER"))):
-    await order_service.add_order(order, current_user['username'])
-    return 'Added'
+    inserted_id = await order_service.add_order(order, current_user['username'])
+    return inserted_id
 
 @router.get("/")
 async def get_orders(current_user: dict = Depends(role_required("DELIVERY_PERSONNEL"))):
     orders = await order_service.get_all()
     return orders
+
+@router.get("/{id}")
+async def get_orders(id, current_user: dict = Depends(role_required("CUSTOMER"))):
+    order = await order_service.get_by_id(id)
+    return order
 
 @router.post("/{id}/mark-accepted-for-delivery")
 async def accept_orders(id, current_user: dict = Depends(role_required("DELIVERY_PERSONNEL"))):

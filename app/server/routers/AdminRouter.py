@@ -20,4 +20,6 @@ async def add_admin(admin: AdminCreationRequestSchema):
             detail="Username already exists"
         ) 
     await admin_service.add_admin(admin)
-    return 'Added'
+    return {
+        "message": "User registered successfully"
+    }

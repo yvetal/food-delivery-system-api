@@ -22,7 +22,10 @@ async def add_customer(customer: CustomerCreationRequestSchema):
             detail="Username already exists"
         ) 
     await customer_service.add_customer(customer)
-    return 'Added'
+    return {
+        "message": "User registered successfully"
+    }
+
 
 @router.get("/orders")
 async def get_orders_for_customer(current_user: dict = Depends(role_required("CUSTOMER"))):

@@ -18,4 +18,6 @@ async def add_restaurant_owner(restaurant_owner: RestaurantOwnerCreationRequestS
             detail="Username already exists"
         ) 
     await restaurant_owner_service.add_restaurant_owner(restaurant_owner)
-    return 'Added'
+    return {
+        "message": "User registered successfully"
+    }

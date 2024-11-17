@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
+import re
 from enum import Enum
 
 class MenuItemCreationRequest(BaseModel):
@@ -75,9 +76,16 @@ class UserDetails(BaseModel):
 class DeliveryPersonnelDetails(UserDetails):
     pass
 
+UPI_ID_REGEX = r'^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$'
+
 class CustomerDetails(UserDetails):
     delivery_address: str = Field(...)
     payment_upi_id: str = Field(...)
+    @validator('payment_upi_id')
+    def validate_upi_id(cls, value):
+        if not re.match(UPI_ID_REGEX, value):
+            raise ValueError("Invalid UPI ID format. Ensure it follows the format 'username@bank'.")
+        return value
 
 class RestaurantOwnerDetails(UserDetails):
     pass
